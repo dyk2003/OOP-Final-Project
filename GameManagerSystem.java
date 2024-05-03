@@ -1,0 +1,147 @@
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class GameManagerSystem {
+    private List<Game> gamesList;
+    private List<Game> installedList;
+    private double totalMemory; // Total storage available for games in MB
+
+    public GameManagerSystem(double totalMemory) {
+        this.gamesList = new ArrayList<>();
+        this.installedList = new ArrayList<>();
+        this.totalMemory = totalMemory;
+    }
+    
+    // create predefined game list
+    public void addGame(Game game) {
+        if (totalMemory >= game.getSize()) {
+            gamesList.add(game);
+            totalMemory -= game.getSize();
+        } else {
+            System.out.println("Not enough memory to install the game.");
+        }
+    }
+    
+    // install a new game
+    public void installGame(String name) {
+    	Game gameToInstall = gamesList.stream()
+                .filter(game -> game.getName().equalsIgnoreCase(name))
+                .findFirst()
+                .orElse(null);
+    	if (gameToInstall == null) {
+            System.out.println("Game not found.");
+            return;  // Exit the method if no game is found
+        }
+
+        // Check if the game is already installed
+        if (gameToInstall.getInstalled()) {
+            System.out.println("Game is already installed.");
+            return;  // Exit the method if the game is already installed
+        }
+        
+        System.out.println(gameToInstall.getName());
+        if (totalMemory >= gameToInstall.getSize()) {
+        	gameToInstall.setInstalled(true);
+        	installedList.add(gameToInstall);
+            totalMemory -= gameToInstall.getSize();
+        } else {
+            System.out.println("Not enough memory to install the game.");
+        }
+    }
+    /*
+    public void installGame(Game game) {
+        if (totalMemory >= game.getSize()) {
+        	game.setInstalled(true);
+        	installedList.add(game);
+            totalMemory -= game.getSize();
+        } else {
+            System.out.println("Not enough memory to install the game.");
+        }
+    }
+    /*
+
+    /*
+    public void deleteGame(String name) {
+        Game gameToRemove = gamesList.stream()
+                                     .filter(game -> game.getName().toLowerCase().contains(name.toLowerCase()))
+                                     .findFirst()
+                                     .orElse(null);
+        if (gameToRemove != null) {
+            gamesList.remove(gameToRemove);
+            totalMemory += gameToRemove.getSize();
+        }
+    }
+    */
+    // uninstall a game
+    public void uninstallGame(String name) {
+        Game gameToRemove = installedList.stream()
+                                     .filter(game -> game.getName().toLowerCase().contains(name.toLowerCase()))
+                                     .findFirst()
+                                     .orElse(null);
+        if (gameToRemove != null) {
+        	gameToRemove.setInstalled(false);
+        	installedList.remove(gameToRemove);
+            totalMemory += gameToRemove.getSize();
+        }
+    }
+    
+    public double rateGame(String name, double rating) {
+        Game gameToRate = gamesList.stream()
+                                   .filter(game -> game.getName().equalsIgnoreCase(name))
+                                   .findFirst()
+                                   .orElse(null);
+        if (gameToRate != null) {
+            // Calculate the new average rating
+            double newRating = (gameToRate.getRating() * gameToRate.getRatingNum() + rating) / (gameToRate.getRatingNum() + 1);
+
+            // Update the game with the new rating and increment the rating count
+            gameToRate.setRating(newRating);
+            gameToRate.setRatingNum(gameToRate.getRatingNum() + 1);
+
+            return newRating;
+        } else {
+            // Handle the case where the game is not found
+            System.out.println("Game not found.");
+            return -1;  // Indicative of an error condition or not found
+        }
+    }
+
+
+    public List<Game> searchGames(String query) {
+        return gamesList.stream()
+                        .filter(game -> game.getName().toLowerCase().contains(query.toLowerCase()) ||
+                                        game.getCategory().toLowerCase().contains(query.toLowerCase()) ||
+                                        game.getDeveloperTeam().toLowerCase().contains(query.toLowerCase()) ||
+                                        (game.getInstalled() && "installed".equals(query.toLowerCase())))
+                        .collect(Collectors.toList());
+    }
+
+    public void showAllGames() {
+        if (gamesList.isEmpty()) {
+            System.out.println("No games available.");
+            return;
+        }
+
+        // Print table header
+        System.out.printf("%-20s %-12s %-15s %-20s %-16s %-10s %-10s%n",
+                          "Name", "Size (MB)", "Category", "Developer Team", "Price (USD)", "Rating", "Installed");
+
+        // Print each game's details
+        for (Game game : gamesList) {
+            System.out.printf("%-20s %-12.2f %-15s %-20s %-16.2f %-10.2f %-10b%n",
+                              game.getName(),
+                              game.getSize(),             // double, two decimal places
+                              game.getCategory(),         // String
+                              game.getDeveloperTeam(),    // String
+                              game.getPrice(),            // double, two decimal places
+                              game.getRating(),           // double, two decimal places
+                              game.getRatingNum(),        // int
+                              game.getInstalled());        // boolean
+        }
+    }
+
+    public double getRemainingMemory() {
+        return totalMemory;
+    }
+}

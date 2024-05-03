@@ -6,24 +6,30 @@ public class GameManagerSystem {
     private List<Game> gamesList;
     private List<Game> installedList;
     private double totalMemory; // Total storage available for games in MB
+    private double totalMoney;
 
-    public GameManagerSystem(double totalMemory) {
+    public GameManagerSystem(double totalMemory, double totalMoney) {
         this.gamesList = new ArrayList<>();
         this.installedList = new ArrayList<>();
         this.totalMemory = totalMemory;
+        this.totalMoney = totalMoney;
     }
     
     // create predefined game list
     public void addGame(Game game) {
-        if (totalMemory >= game.getSize()) {
-            gamesList.add(game);
-            totalMemory -= game.getSize();
-        } else {
-            System.out.println("Not enough memory to install the game.");
-        }
+    	gamesList.add(game);
+    }
+    
+    public void buyGame(Game game) {
+    	totalMoney -= game.getPrice();
+    	game.setPurchase(true);
     }
     
     // install a new game
+    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    // update the function name as: buyAndInstallGame
+    
+    
     public void installGame(String name) {
     	Game gameToInstall = gamesList.stream()
                 .filter(game -> game.getName().equalsIgnoreCase(name))
@@ -33,6 +39,12 @@ public class GameManagerSystem {
             System.out.println("Game not found.");
             return;  // Exit the method if no game is found
         }
+    	else {
+    		// not purchased
+    		if(gameToInstall.getPurchase() == false) {
+    			buyGame(gameToInstall);
+    		}
+    	}
 
         // Check if the game is already installed
         if (gameToInstall.getInstalled()) {
@@ -40,11 +52,12 @@ public class GameManagerSystem {
             return;  // Exit the method if the game is already installed
         }
         
-        System.out.println(gameToInstall.getName());
+        //System.out.println(gameToInstall.getName());
         if (totalMemory >= gameToInstall.getSize()) {
         	gameToInstall.setInstalled(true);
         	installedList.add(gameToInstall);
             totalMemory -= gameToInstall.getSize();
+            System.out.println("Game installed successfully.");
         } else {
             System.out.println("Not enough memory to install the game.");
         }
@@ -79,10 +92,15 @@ public class GameManagerSystem {
                                      .filter(game -> game.getName().toLowerCase().contains(name.toLowerCase()))
                                      .findFirst()
                                      .orElse(null);
+        
         if (gameToRemove != null) {
         	gameToRemove.setInstalled(false);
         	installedList.remove(gameToRemove);
             totalMemory += gameToRemove.getSize();
+            System.out.println("Game uninstalled successfully.");
+        }
+        else {
+        	System.out.println("Game cannot been uninstlled since it is not installed");
         }
     }
     
@@ -143,5 +161,8 @@ public class GameManagerSystem {
 
     public double getRemainingMemory() {
         return totalMemory;
+    }
+    public double getRemainingMoney() {
+    	return totalMoney;
     }
 }

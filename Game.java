@@ -7,8 +7,9 @@ public class Game {
     private double rating;
     private int ratingNum; // number of ratings
     private boolean installed;
+    private boolean purchased;
 
-    public Game(String name, double size, String category, String developerTeam, double price, double rating, int ratingNum, boolean installed) {
+    public Game(String name, double size, String category, String developerTeam, double price, double rating, int ratingNum, boolean installed, boolean purchased) {
         this.name = name;
         this.size = size;
         this.category = category;
@@ -17,6 +18,7 @@ public class Game {
         this.rating = rating;
         this.ratingNum = ratingNum;
         this.installed = installed;
+        this.purchased = purchased;
     }
 
     // Getters
@@ -66,5 +68,13 @@ public class Game {
 
     public void setRatingNum(int ratingNum) {
         this.ratingNum = ratingNum;
+    }
+    
+    public boolean getPurchase() {
+    	return purchased;
+    }
+    
+    public void setPurchase(boolean purchased) {
+    	this.purchased = purchased;
     }
 }

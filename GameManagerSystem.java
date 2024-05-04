@@ -27,12 +27,9 @@ public class GameManagerSystem {
         game.setPurchase(true);
     }
 
-    // install a new game
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // update the function name as: buyAndInstallGame
+    // buy and/or install a game
 
-
-    public void installGame(String name) {
+    public void buyAndInstallGame(String name) {
         Game gameToInstall = gamesList.stream()
                 .filter(game -> game.getName().equalsIgnoreCase(name))
                 .findFirst()
@@ -43,7 +40,7 @@ public class GameManagerSystem {
         }
         else {
             // not purchased
-            if(gameToInstall.getPurchase() == false) {
+            if(gameToInstall.getPurchase() == false && gameToInstall.getPrice() < totalMoney) {
                 buyGame(gameToInstall);
             }
         }
@@ -64,30 +61,7 @@ public class GameManagerSystem {
             System.out.println("Not enough memory to install the game.");
         }
     }
-    /*
-    public void installGame(Game game) {
-        if (totalMemory >= game.getSize()) {
-        	game.setInstalled(true);
-        	installedList.add(game);
-            totalMemory -= game.getSize();
-        } else {
-            System.out.println("Not enough memory to install the game.");
-        }
-    }
-    /*
 
-    /*
-    public void deleteGame(String name) {
-        Game gameToRemove = gamesList.stream()
-                                     .filter(game -> game.getName().toLowerCase().contains(name.toLowerCase()))
-                                     .findFirst()
-                                     .orElse(null);
-        if (gameToRemove != null) {
-            gamesList.remove(gameToRemove);
-            totalMemory += gameToRemove.getSize();
-        }
-    }
-    */
     // uninstall a game
     public void uninstallGame(String name) {
         Game gameToRemove = installedList.stream()
@@ -155,11 +129,11 @@ public class GameManagerSystem {
         for (Game game : gamesList) {
             System.out.printf("%-20s %-12.2f %-15s %-20s %-16.2f %-10.2f %n",
                     game.getName(),
-                    game.getSize(),             // double, two decimal places
-                    game.getCategory(),         // String
-                    game.getDeveloperTeam(),    // String
-                    game.getPrice(),            // double, two decimal places
-                    game.getRating(),           // double, two decimal places
+                    game.getSize(),
+                    game.getCategory(),
+                    game.getDeveloperTeam(),
+                    game.getPrice(),
+                    game.getRating(),
                     game.getRatingNum());
         }
     }

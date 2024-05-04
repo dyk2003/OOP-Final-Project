@@ -28,10 +28,10 @@ public class Main {
                     searchGames();
                     break;
                 case 5:
-                    showRemainingMemory();
+                    rateGame();
                     break;
                 case 6:
-                    rateGame();
+                    showRemainingMemory();
                     break;
                 case 7:
                     showRemainingMoney();
@@ -45,22 +45,6 @@ public class Main {
         }
         scanner.close();
     }
-/*
-    private static void initializeGameManagerSystem() {
-        // Initialize GameManagerSystem with a total memory of 1024 MB
-        manager = new GameManagerSystem(1024,200);
-
-        // Predefined games to add to the system
-        Game game1 = new Game("Elden Ring", 50, "RPG", "FromSoftware", 59.99, 0, 0, false, false);
-        Game game2 = new Game("Stardew Valley", 150, "Simulation", "ConcernedApe", 14.99, 0, 0, false, false);
-        Game game3 = new Game("Cyberpunk 2077", 200, "RPG", "CD Projekt Red", 49.99, 0, 0, false, false);
-        // System.out.println(game1.getInstalled());
-        manager.addGame(game1);
-        manager.addGame(game2);
-        manager.addGame(game3);
-
-    }
-       */
 
     private static void printMenu() {
         System.out.println("\nChoose an option:");
@@ -68,23 +52,23 @@ public class Main {
         System.out.println("2 - Install a Game");
         System.out.println("3 - Uninstall a Game");
         System.out.println("4 - Search Games");
-        System.out.println("5 - Show Remaining Memory");
-        System.out.println("6 - Rate a Game");
+        System.out.println("5 - Rate a Game");
+        System.out.println("6 - Show Remaining Memory");
         System.out.println("7 - Show Remaining Money");
         System.out.println("0 - Exit");
     }
 
     private static void initializeGameManagerSystem() {
-        // Initialize GameManagerSystem with a total memory of 1024 MB
-        manager = new GameManagerSystem(1024, 200);
+        // Initialize GameManagerSystem
+        manager = new GameManagerSystem(1024, 400);
 
-        File file = new File("games.txt");  // Specify the path to the file if not in the project root
+        File file = new File("games.txt");
         try {
             Scanner scanner = new Scanner(file);
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] data = line.split(",");
-                if (data.length == 9) {  // Ensure that each line has the correct number of elements
+                if (data.length == 9) {
                     String name = data[0];
                     double size = Double.parseDouble(data[1]);
                     String category = data[2];
@@ -113,7 +97,7 @@ public class Main {
     private static void installGame() {
         System.out.print("Enter game name: ");
         String name = scanner.nextLine();
-        manager.installGame(name);
+        manager.buyAndInstallGame(name);
         //System.out.println("Game installed successfully.");
     }
 
@@ -126,14 +110,16 @@ public class Main {
     }
 
     private static void searchGames() {
-        System.out.print("Enter search query (name/category/developer team) or \'installed\' for installed games: ");
+        System.out.println("Search instructions: ");
+        System.out.println("Enter name/category/developer team to search for games, or enter 'installed' to see installed games\n");
+        System.out.print("Enter search query: ");
         String query = scanner.nextLine();
         List<Game> results = manager.searchGames(query);
         System.out.println("Search Results:");
         if (results.isEmpty()) {
             System.out.println("No games found.");
         } else {
-            results.forEach(game -> System.out.println(game.getName() + " - " + game.getPrice() + " USD"));
+            results.forEach(game -> System.out.println(game.getName() + " - " + game.getCategory() +" - " + game.getPrice() + " USD" + " - " +game.getSize() + " MB"));
         }
     }
 
@@ -148,16 +134,8 @@ public class Main {
         System.out.print("Enter the name of the game you want to rate: ");
         String name = scanner.nextLine();  // Use nextLine() to capture full input including spaces.
 
-//        System.out.print("Rate the game (up to 5): ");
-//        double rating = scanner.nextDouble();
-        //scanner.nextLine();  // Consume the leftover newline character after reading a double.
+        manager.rateGame(name);
 
-        double newRating = manager.rateGame(name);
-//        if (newRating == -1) {
-//            System.out.println("Unable to find the game or error in rating.");
-//        } else {
-//            System.out.printf("New rating of %s is %.2f%n", name, newRating);  // Corrected the format string
-//        }
     }
 
 

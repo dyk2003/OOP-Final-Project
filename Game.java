@@ -1,5 +1,5 @@
 public class Game {
-	private String name;
+    private String name;
     private double size; // in MB
     private String category;
     private String developerTeam;
@@ -41,27 +41,27 @@ public class Game {
     public double getPrice() {
         return price;
     }
-    
+
     public double getRating() {
         return rating;
     }
-    
+
     public int getRatingNum() {
-    	return ratingNum;
+        return ratingNum;
     }
-    
+
     public void addRatingNum() {
-    	ratingNum += 1;
+        ratingNum += 1;
     }
-    
+
     public boolean getInstalled() {
-    	return installed;
+        return installed;
     }
-    
+
     public void setInstalled(boolean install) {
-    	installed = install;
+        installed = install;
     }
-    
+
     public void setRating(double rating) {
         this.rating = rating;
     }
@@ -69,12 +69,12 @@ public class Game {
     public void setRatingNum(int ratingNum) {
         this.ratingNum = ratingNum;
     }
-    
+
     public boolean getPurchase() {
-    	return purchased;
+        return purchased;
     }
-    
+
     public void setPurchase(boolean purchased) {
-    	this.purchased = purchased;
+        this.purchased = purchased;
     }
 }

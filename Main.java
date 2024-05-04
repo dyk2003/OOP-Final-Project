@@ -134,6 +134,7 @@ public class Main {
         System.out.print("Enter the name of the game you want to rate: ");
         String name = scanner.nextLine();  // Use nextLine() to capture full input including spaces.
 
+
         manager.rateGame(name);
 
     }

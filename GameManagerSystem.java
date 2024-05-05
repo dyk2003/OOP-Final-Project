@@ -89,6 +89,10 @@ public class GameManagerSystem {
         if (gameToRate != null) {
             System.out.print("Rate the game (up to 5): ");
             double rating = scanner.nextDouble();
+            if(rating > 5.0){
+                System.out.println("Invalid rating. The rating should be up to 5.");
+                return -1;
+            }
             // Calculate the new average rating
             double newRating = (gameToRate.getRating() * gameToRate.getRatingNum() + rating) / (gameToRate.getRatingNum() + 1);
 
@@ -101,7 +105,7 @@ public class GameManagerSystem {
         } else {
             // Handle the case where the game is not found
             System.out.println("Game not found.");
-            return -1;  // Indicative of an error condition or not found
+            return -1;
         }
     }
 
@@ -121,7 +125,6 @@ public class GameManagerSystem {
             return;
         }
 
-        // Print table header
         System.out.printf("%-20s %-12s %-15s %-20s %-16s %-10s %n",
                 "Name", "Size (MB)", "Category", "Developer Team", "Price (USD)", "Rating");
 

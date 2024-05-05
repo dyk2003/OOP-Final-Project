@@ -127,10 +127,13 @@ public class Main {
     }
 
     private static void showRemainingMemory() {
-        System.out.println("Remaining Memory: " + manager.getRemainingMemory() + " MB");
+        double remainingMemory = manager.getRemainingMemory();
+        System.out.println("Remaining Memory: " + String.format("%.2f", remainingMemory) + " MB");
     }
+
     private static void showRemainingMoney() {
-        System.out.println("Remaining Money: " + manager.getRemainingMoney() + " Dollars");
+        double remainingMoney = manager.getRemainingMoney();
+        System.out.println("Remaining Money: " + String.format("%.2f", remainingMoney) + " Dollars");
     }
 
     private static void rateGame() {

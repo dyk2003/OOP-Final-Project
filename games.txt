@@ -1,3 +1,10 @@
-Elden Ring,50,RPG,FromSoftware,59.99,0,0,false,false
-Stardew Valley,150,Simulation,ConcernedApe,14.99,0,0,false,false
-Cyberpunk 2077,200,RPG,CD Projekt Red,49.99,0,0,false,false
+Elden Ring,60,RPG,FromSoftware,59.99,4.5,200,false,false
+Stardew Valley,500,Simulation,ConcernedApe,14.99,4.8,1500,false,false
+Cyberpunk 2077,70,RPG,CD Projekt Red,49.99,3.9,880,false,false
+Among Us,200,Action,Innersloth,5.00,4.2,3000,false,false
+Minecraft,400,Sandbox,Mojang,26.95,4.9,5000,false,false
+The Witcher 3,50,RPG,CD Projekt Red,39.99,4.8,2500,false,false
+Portal 2,10,Puzzle,Valve,9.99,4.9,4600,false,false
+Fallout 4,80,RPG,Bethesda Studios,29.99,4.4,2200,false,false
+Valorant,150,FPS,Riot Games,0,4.1,780,false,false
+Genshin Impact,1000,Adventure,miHoYo,190.00,4.5,500,false,false

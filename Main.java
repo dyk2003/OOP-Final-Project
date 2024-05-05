@@ -19,7 +19,7 @@ public class Main {
                     showAllGames();
                     break;
                 case 2:
-                    installGame();
+                    buyAndInstallGame();
                     break;
                 case 3:
                     uninstallGame();
@@ -49,7 +49,7 @@ public class Main {
     private static void printMenu() {
         System.out.println("\nChoose an option:");
         System.out.println("1 - Show All Games");
-        System.out.println("2 - Install a Game");
+        System.out.println("2 - Install/Buy a Game");
         System.out.println("3 - Uninstall a Game");
         System.out.println("4 - Search Games");
         System.out.println("5 - Rate a Game");
@@ -60,7 +60,7 @@ public class Main {
 
     private static void initializeGameManagerSystem() {
         // Initialize GameManagerSystem
-        manager = new GameManagerSystem(1024, 400);
+        manager = new GameManagerSystem(1024, 100);
 
         File file = new File("games.txt");
         try {
@@ -94,8 +94,8 @@ public class Main {
     }
 
     // install a game
-    private static void installGame() {
-        System.out.print("Enter game name: ");
+    private static void buyAndInstallGame() {
+        System.out.print("Enter the of the name of the game you want to buy/install: ");
         String name = scanner.nextLine();
         manager.buyAndInstallGame(name);
         //System.out.println("Game installed successfully.");
@@ -119,7 +119,10 @@ public class Main {
         if (results.isEmpty()) {
             System.out.println("No games found.");
         } else {
-            results.forEach(game -> System.out.println(game.getName() + " - " + game.getCategory() +" - " + game.getPrice() + " USD" + " - " +game.getSize() + " MB"));
+            results.forEach(game -> {
+                String installedStatus = game.getInstalled() ? "installed" : "not installed";
+                System.out.println(game.getName() + " - " + game.getCategory() + " - " + game.getDeveloperTeam() + " - " + game.getPrice() + " USD" + " - " + game.getSize() + " MB" + " - " + installedStatus);
+            });
         }
     }
 

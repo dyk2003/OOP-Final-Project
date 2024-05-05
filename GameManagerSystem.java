@@ -7,7 +7,7 @@ public class GameManagerSystem {
     private static Scanner scanner = new Scanner(System.in);
     private List<Game> gamesList;
     private List<Game> installedList;
-    private double totalMemory; // Total storage available for games in MB
+    private double totalMemory;
     private double totalMoney;
 
     public GameManagerSystem(double totalMemory, double totalMoney) {
@@ -17,7 +17,7 @@ public class GameManagerSystem {
         this.totalMoney = totalMoney;
     }
 
-    // create predefined game list
+    // Create a predefined game list
     public void addGame(Game game) {
         gamesList.add(game);
     }
@@ -27,8 +27,7 @@ public class GameManagerSystem {
         game.setPurchase(true);
     }
 
-    // buy and/or install a game
-
+    // Buy and/or Install a game
     public void buyAndInstallGame(String name) {
         Game gameToInstall = gamesList.stream()
                 .filter(game -> game.getName().equalsIgnoreCase(name))
@@ -36,18 +35,26 @@ public class GameManagerSystem {
                 .orElse(null);
         if (gameToInstall == null) {
             System.out.println("Game not found.");
-            return;  // Exit the method if no game is found
+            return;
         }
         else {
             // not purchased
             if(gameToInstall.getPurchase() == false && gameToInstall.getPrice() < totalMoney) {
+                System.out.printf("You spend %.2f Dollars to buy %s.%n", gameToInstall.getPrice(), gameToInstall.getName());
                 buyGame(gameToInstall);
+            }
+            else if(gameToInstall.getPurchase() == true){
+                System.out.printf("You have already bought %s.%n",gameToInstall.getName());
+            }
+            else if(gameToInstall.getPurchase() == false && gameToInstall.getPrice() > totalMoney){
+                System.out.printf("No enough money to buy %s.%n",gameToInstall.getName());
+                return;
             }
         }
 
         // Check if the game is already installed
         if (gameToInstall.getInstalled()) {
-            System.out.println("Game is already installed.");
+            System.out.printf("%s is already installed.%n", gameToInstall.getName());
             return;  // Exit the method if the game is already installed
         }
 
@@ -56,9 +63,9 @@ public class GameManagerSystem {
             gameToInstall.setInstalled(true);
             installedList.add(gameToInstall);
             totalMemory -= gameToInstall.getSize();
-            System.out.println("Game installed successfully.");
+            System.out.printf("%s installed successfully.%n", gameToInstall.getName());
         } else {
-            System.out.println("Not enough memory to install the game.");
+            System.out.printf("No enough memory to install %s.%n",gameToInstall.getName());
         }
     }
 
@@ -73,10 +80,10 @@ public class GameManagerSystem {
             gameToRemove.setInstalled(false);
             installedList.remove(gameToRemove);
             totalMemory += gameToRemove.getSize();
-            System.out.println("Game uninstalled successfully.");
+            System.out.printf("%s uninstalled successfully.%n",gameToRemove.getName());
         }
         else {
-            System.out.println("Game cannot been uninstlled since it is not installed");
+            System.out.printf("%s cannot been uninstalled since it is not installed.%n",name);
         }
     }
 
@@ -99,7 +106,7 @@ public class GameManagerSystem {
             // Update the game with the new rating and increment the rating count
             gameToRate.setRating(newRating);
             gameToRate.setRatingNum(gameToRate.getRatingNum() + 1);
-            System.out.printf("New rating of %s is %.2f%n", name, newRating);
+            System.out.printf("New rating of %s is %.2f%n", gameToRate.getName(), newRating);
 
             return newRating;
         } else {

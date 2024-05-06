@@ -3,14 +3,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.Scanner;
 
-public class GameManagerSystem {
+public class GameManager {
     private static Scanner scanner = new Scanner(System.in);
     private List<Game> gamesList;
     private List<Game> installedList;
     private double totalMemory;
     private double totalMoney;
 
-    public GameManagerSystem(double totalMemory, double totalMoney) {
+    public GameManager(double totalMemory, double totalMoney) {
         this.gamesList = new ArrayList<>();
         this.installedList = new ArrayList<>();
         this.totalMemory = totalMemory;

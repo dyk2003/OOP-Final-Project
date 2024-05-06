@@ -7,7 +7,7 @@ public class OptionManager {
     private static GameManager manager;
     private static Scanner scanner = new Scanner(System.in);
 
-    void operateMenu(){
+    public void operateMenu(){
         initializeGameManagerSystem();
         boolean running = true;
         while (running) {

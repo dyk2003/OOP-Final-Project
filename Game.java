@@ -1,4 +1,4 @@
-public class Game {
+、public class Game {
     private String name;
     private double size; // in MB
     private String category;
@@ -50,9 +50,11 @@ public class Game {
         return ratingNum;
     }
 
+    /*
     public void addRatingNum() {
         ratingNum += 1;
     }
+     */
 
     public boolean getInstalled() {
         return installed;

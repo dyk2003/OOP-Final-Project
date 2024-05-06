@@ -96,8 +96,8 @@ public class GameManagerSystem {
         if (gameToRate != null) {
             System.out.print("Rate the game (up to 5): ");
             double rating = scanner.nextDouble();
-            if(rating > 5.0){
-                System.out.println("Invalid rating. The rating should be up to 5.");
+            if(rating > 5.0 || rating <0){
+                System.out.println("Invalid rating. The rating should be greater than 0 and less than 5.");
                 return -1;
             }
             // Calculate the new average rating
@@ -143,8 +143,7 @@ public class GameManagerSystem {
                     game.getCategory(),
                     game.getDeveloperTeam(),
                     game.getPrice(),
-                    game.getRating(),
-                    game.getRatingNum());
+                    game.getRating());
         }
     }
 
